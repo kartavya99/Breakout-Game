@@ -6,6 +6,7 @@ const blockHeight = 20;
 const userStart = [230, 10];
 // currentPosition of user
 let currentPostion = userStart;
+const boardWidth = 560;
 
 
 //Create Block 
@@ -76,6 +77,13 @@ function moveUser(e) {
         case "ArrowLeft":
             if (currentPostion[0] > 0 ) {
                 currentPostion[0] -= 10
+                drawUser();
+            }
+            break;
+
+        case "ArrowRight":
+            if (currentPostion[0] < boardWidth - blockWidth) {
+                currentPostion[0] += 10
                 drawUser();
             }
             break;
