@@ -2,6 +2,10 @@
 const grid = document.querySelector(".grid");
 const blockWidth = 100;
 const blockHeight = 20;
+// user always going to start from this position
+const userStart = [230, 10];
+// currentPosition of user
+let currentPostion = userStart;
 
 
 //Create Block 
@@ -12,10 +16,8 @@ class Block {
         this.blockHeight =[xAxis + blockWidth, yAxis]; // xAxis moves 100px sides
         this.topLeft = [xAxis, yAxis + blockHeight]; // yAxis moves 20px in height 
         this.topRight = [xAxis + blockWidth, yAxis + blockHeight]; //exact oppoiste of the bottomleft postion
-
-
     }
-    
+  
 }
 
 //all my blocks
@@ -39,7 +41,6 @@ const blocks = [
 ]
 //console.log(blocks[0]);
 
-
 // created a block and added classlist block from style.css and applied positons.
 function addBlocks () {
         // const blocks = d
@@ -52,8 +53,14 @@ function addBlocks () {
 
     }
 }
-
-
 addBlocks();
+
+// create user with start poisition 
+const user = document.createElement("div");
+user.classList.add("user");
+// users will always start frm the below position
+user.style.left = currentPostion[0] + 'px';
+user.style.bottom = currentPostion [1] + "px";
+grid.appendChild(user);
 
 
