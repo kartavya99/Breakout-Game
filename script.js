@@ -7,7 +7,7 @@ const ballDiameter = 20; // getting ball diameter from the CSS ball class
 // user always going to start from this position
 const userStart = [230, 10];
 // currentPosition of user
-let currentPostion = userStart;
+let currentPosition = userStart;
 const boardWidth = 560;
 const boardHeight = 300;
 
@@ -78,8 +78,8 @@ grid.appendChild(user);
 // draw the user
 function drawUser() {
     // users will always start frm the below position and use this poistion for user to move
-    user.style.left = currentPostion[0] + 'px';
-    user.style.bottom = currentPostion [1] + "px";
+    user.style.left = currentPosition[0] + 'px';
+    user.style.bottom = currentPosition [1] + "px";
 };
 
 // draw the ball 
@@ -95,15 +95,15 @@ function drawBall () {
 function moveUser(e) {
     switch(e.key){
         case "ArrowLeft":
-            if (currentPostion[0] > 0 ) {
-                currentPostion[0] -= 10
+            if (currentPosition[0] > 0 ) {
+                currentPosition[0] -= 10
                 drawUser();
             }
             break;
 
         case "ArrowRight":
-            if (currentPostion[0] < boardWidth - blockWidth) {
-                currentPostion[0] += 10
+            if (currentPosition[0] < boardWidth - blockWidth) {
+                currentPosition[0] += 10
                 drawUser();
             }
             break;
@@ -151,6 +151,13 @@ function checkForCollisions () {
             score ++;
             scoreDisplay.innerHTML = score;
 
+            // check for win
+            if ( blocks.length === 0 ) {
+                scoreDisplay.innerHTML = "You Win";
+                clearInterval(timerId);
+                document.removeEventListener("keydown", moveUser);
+            }
+
 
         }
     }
@@ -166,10 +173,10 @@ function checkForCollisions () {
 
     //check for user collisions
     if (
-        ( ballCurrentPosition[0] > currentPostion[0] && ballCurrentPosition[o] < ballCurrentPosition[0] + blockWidth)
-        (ballCurrentPosition[1] > currentPostion[1] && ballCurrentPosition[1] < ballCurrentPosition[1] + blockHeight)
+        (ballCurrentPosition[0] > currentPosition[0] && ballCurrentPosition[0] < currentPosition[0] + blockWidth) &&
+        (ballCurrentPosition[1] > currentPosition[1] && ballCurrentPosition[1] < currentPosition[1] + blockHeight)
     ) {
-        changeDiretion()
+        changeDiretion();
     }
 
     // chekc for game over
