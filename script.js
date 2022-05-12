@@ -16,8 +16,9 @@ const ballStart = [270, 40];
 let ballCurrentPosition = ballStart;
 
 let timerId;
-let xDirection = 2;
+let xDirection = -2;
 let yDirection = 2;
+let score = 0;
 
 
 //Create Block 
@@ -25,7 +26,7 @@ class Block {
     constructor(xAxis, yAxis) {
         // to find the exact position of the block
         this.bottomLeft = [xAxis, yAxis];
-        this.blockHeight =[xAxis + blockWidth, yAxis]; // xAxis moves 100px sides
+        this.bottomRight =[xAxis + blockWidth, yAxis]; // xAxis moves 100px sides
         this.topLeft = [xAxis, yAxis + blockHeight]; // yAxis moves 20px in height 
         this.topRight = [xAxis + blockWidth, yAxis + blockHeight]; //exact oppoiste of the bottomleft postion
     }
@@ -130,12 +131,44 @@ timerId =setInterval(moveBall, 30);
 
 // chage the direction of ball when it hits the border of the board = check for collisions
 function checkForCollisions () {
+
+    //check for block collisions
+    for (let i =0; i < blocks.length; i++) {
+        if (
+            (ballCurrentPosition[0] > blocks[i].bottomLeft[0] && 
+             ballCurrentPosition[0] < blocks[i].bottomRight[0] &&
+             (ballCurrentPosition[1] + ballDiameter) > blocks[i].bottomLeft[1] &&
+             ballCurrentPosition[1] < blocks[i].topLeft[1] ) 
+        ) {
+            const allBlocks = Array.from(document.querySelectorAll(".block"));
+            //console.log(allBlocks);
+            //remove the block from the allBlocks
+            allBlocks[i].classList.remove('block');
+            //removing the block from blocks array
+            blocks.splice(i, 1);
+            // after removing the block we need to change the direction
+            changeDiretion();
+            score ++;
+            scoreDisplay.innerHTML = score;
+
+
+        }
+    }
+
     //check for wall collisions
     if (
         ballCurrentPosition[0] >= (boardWidth - ballDiameter) ||
         ballCurrentPosition[1] >= (boardHeight - ballDiameter) ||
         ballCurrentPosition[0] <= 0
         ) {
+        changeDiretion()
+    }
+
+    //check for user collisions
+    if (
+        ( ballCurrentPosition[0] > currentPostion[0] && ballCurrentPosition[o] < ballCurrentPosition[0] + blockWidth)
+        (ballCurrentPosition[1] > currentPostion[1] && ballCurrentPosition[1] < ballCurrentPosition[1] + blockHeight)
+    ) {
         changeDiretion()
     }
 
