@@ -29,9 +29,9 @@ class Block {
         this.bottomRight =[xAxis + blockWidth, yAxis]; // xAxis moves 100px sides
         this.topLeft = [xAxis, yAxis + blockHeight]; // yAxis moves 20px in height 
         this.topRight = [xAxis + blockWidth, yAxis + blockHeight]; //exact oppoiste of the bottomleft postion
-    }
+    };
   
-}
+};
 
 //all my blocks
 const blocks = [
@@ -51,7 +51,7 @@ const blocks = [
     new Block(340,210),
     new Block(450,210)
     
-]
+];
 //console.log(blocks[0]);
 
 // created a block and added classlist block from style.css and applied positons.
@@ -125,84 +125,84 @@ function moveBall () {
     ballCurrentPosition[1] += yDirection; //adding 2 px to yAxis
     drawBall();
     checkForCollisions();
-}
+};
 
 timerId =setInterval(moveBall, 30);
 
 // chage the direction of ball when it hits the border of the board = check for collisions
 function checkForCollisions () {
 
-    //check for block collisions
-    for (let i =0; i < blocks.length; i++) {
+        //check for block collisions
+        for (let i =0; i < blocks.length; i++) {
+            if (
+                (ballCurrentPosition[0] > blocks[i].bottomLeft[0] && 
+                ballCurrentPosition[0] < blocks[i].bottomRight[0] &&
+                (ballCurrentPosition[1] + ballDiameter) > blocks[i].bottomLeft[1] &&
+                ballCurrentPosition[1] < blocks[i].topLeft[1] ) 
+                ) {
+                    const allBlocks = Array.from(document.querySelectorAll(".block"));
+                    //console.log(allBlocks);
+                    //remove the block from the allBlocks
+                    allBlocks[i].classList.remove('block');
+                    //removing the block from blocks array
+                    blocks.splice(i, 1);
+                    // after removing the block we need to change the direction
+                    changeDiretion();
+                    score ++;
+                    scoreDisplay.innerHTML = score;
+
+                    // check for win
+                    if ( blocks.length === 0 ) {
+                        scoreDisplay.innerHTML = "You Win";
+                        clearInterval(timerId);
+                        document.removeEventListener("keydown", moveUser);
+                    };
+                };
+        };
+
+        //check for wall collisions
         if (
-            (ballCurrentPosition[0] > blocks[i].bottomLeft[0] && 
-             ballCurrentPosition[0] < blocks[i].bottomRight[0] &&
-             (ballCurrentPosition[1] + ballDiameter) > blocks[i].bottomLeft[1] &&
-             ballCurrentPosition[1] < blocks[i].topLeft[1] ) 
+            ballCurrentPosition[0] >= (boardWidth - ballDiameter) ||
+            ballCurrentPosition[1] >= (boardHeight - ballDiameter) ||
+            ballCurrentPosition[0] <= 0
+            ) {
+                changeDiretion()
+            };
+
+        //check for user collisions
+        if (
+            (ballCurrentPosition[0] > currentPosition[0] && ballCurrentPosition[0] < currentPosition[0] + blockWidth) &&
+            (ballCurrentPosition[1] > currentPosition[1] && ballCurrentPosition[1] < currentPosition[1] + blockHeight)
         ) {
-            const allBlocks = Array.from(document.querySelectorAll(".block"));
-            //console.log(allBlocks);
-            //remove the block from the allBlocks
-            allBlocks[i].classList.remove('block');
-            //removing the block from blocks array
-            blocks.splice(i, 1);
-            // after removing the block we need to change the direction
             changeDiretion();
-            score ++;
-            scoreDisplay.innerHTML = score;
+        };
 
-            // check for win
-            if ( blocks.length === 0 ) {
-                scoreDisplay.innerHTML = "You Win";
-                clearInterval(timerId);
-                document.removeEventListener("keydown", moveUser);
-            }
+        // chekc for game over
+        if(ballCurrentPosition[1] <= 0) {
+            clearInterval(timerId);
+            scoreDisplay.innerHTML ="You lose";
+            document.removeEventListener("keydown", moveBall);
+        };
+};
 
 
-        }
-    }
-
-    //check for wall collisions
-    if (
-        ballCurrentPosition[0] >= (boardWidth - ballDiameter) ||
-        ballCurrentPosition[1] >= (boardHeight - ballDiameter) ||
-        ballCurrentPosition[0] <= 0
-        ) {
-        changeDiretion()
-    }
-
-    //check for user collisions
-    if (
-        (ballCurrentPosition[0] > currentPosition[0] && ballCurrentPosition[0] < currentPosition[0] + blockWidth) &&
-        (ballCurrentPosition[1] > currentPosition[1] && ballCurrentPosition[1] < currentPosition[1] + blockHeight)
-    ) {
-        changeDiretion();
-    }
-
-    // chekc for game over
-    if(ballCurrentPosition[1] <= 0) {
-        clearInterval(timerId);
-        scoreDisplay.innerHTML ="You lose";
-        document.removeEventListener("keydown", moveBall);
-    }
-}
 
 function changeDiretion ( ) {
     if (xDirection === 2 && yDirection === 2 ) {
-        yDirection = -2;
-        return;
-    }
+            yDirection = -2;
+            return;
+        };
     if (xDirection === 2 && yDirection === -2 ) {
-        xDirection = -2;
-        return;
-    }
+            xDirection = -2;
+            return;
+        };
     if (xDirection === -2 && yDirection === -2) {
-        yDirection = 2;
-        return;
-    }
+            yDirection = 2;
+            return;
+        };
     if (xDirection === -2 && yDirection === 2 ) {
-        xDirection =2;
-        return;
-    }
+            xDirection =2;
+            return;
+        };
        
-}
+};
