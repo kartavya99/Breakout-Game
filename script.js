@@ -58,9 +58,30 @@ addBlocks();
 // create user with start poisition 
 const user = document.createElement("div");
 user.classList.add("user");
-// users will always start frm the below position
-user.style.left = currentPostion[0] + 'px';
-user.style.bottom = currentPostion [1] + "px";
+drawUser();
 grid.appendChild(user);
+
+
+// draw the user
+function drawUser() {
+    // users will always start frm the below position and use this poistion for user to move
+    user.style.left = currentPostion[0] + 'px';
+    user.style.bottom = currentPostion [1] + "px";
+};
+
+
+//mover user
+function moveUser(e) {
+    switch(e.key){
+        case "ArrowLeft":
+            if (currentPostion[0] > 0 ) {
+                currentPostion[0] -= 10
+                drawUser();
+            }
+            break;
+    }
+}
+
+document.addEventListener("keydown", moveUser);
 
 
