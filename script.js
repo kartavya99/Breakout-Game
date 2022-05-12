@@ -2,15 +2,21 @@
 const grid = document.querySelector(".grid");
 const blockWidth = 100;
 const blockHeight = 20;
+const ballDiameter = 20; // getting ball diameter from the CSS ball class
 // user always going to start from this position
 const userStart = [230, 10];
 // currentPosition of user
 let currentPostion = userStart;
 const boardWidth = 560;
+const boardHeight = 300;
 
 //ball start position
 const ballStart = [270, 40];
 let ballCurrentPosition = ballStart;
+
+let timerId;
+let xDirection = 2;
+let yDirection = 2;
 
 
 //Create Block 
@@ -111,4 +117,33 @@ drawBall();
 grid.appendChild(ball);
 
 
+// move ball
+function moveBall () {
+    ballCurrentPosition[0] += xDirection; //adding 2 px to xAxis
+    ballCurrentPosition[1] += yDirection; //adding 2 px to yAxis
+    drawBall();
+    checkForCollisions();
+}
 
+timerId =setInterval(moveBall, 30);
+
+// chage the direction of ball when it hits the border of the board = check for collisions
+function checkForCollisions () {
+    //check for wall collisions
+    if (
+        ballCurrentPosition[0] >= (boardWidth - ballDiameter) ||
+        ballCurrentPosition[1] >= (boardHeight - ballDiameter) 
+        ) {
+        changeDiretion()
+    }
+}
+
+function changeDiretion ( ) {
+    if (xDirection === 2 && yDirection === 2 ) {
+        xDirection = -2;
+        return;
+    }
+    // if () {
+
+    // }
+}
