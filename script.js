@@ -20,7 +20,22 @@ class Block {
 
 //all my blocks
 const blocks = [
-    new Block(10,270)
+    new Block(10,270),
+    new Block(120,270), // adding 110px to create colume of blocks
+    new Block(230,270),
+    new Block(340,270),
+    new Block(450,270),// first row ends here
+    new Block(10,240), // creating second row by reducing yAxies 30px
+    new Block(120,240),
+    new Block(230,240),
+    new Block(340,240),
+    new Block(450,240),
+    new Block(10,210), // creating thired row by reducing yAxies 30px
+    new Block(120,210),
+    new Block(230,210),
+    new Block(340,210),
+    new Block(450,210)
+    
 ]
 //console.log(blocks[0]);
 
